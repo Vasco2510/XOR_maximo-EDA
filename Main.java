@@ -1,0 +1,104 @@
+// Plantillas incluidas: FastScanner
+import java.io.*;
+import java.util.*;
+
+/*
+ * B. Xor y máximo
+ * https://codeforces.com/group/apQ6meuqNq/contest/715434/problem/B
+ * Límites: 3000 ms, 256 MB
+ *
+ * Para usar una plantilla escribe su nombre (ej. PersistentStack) y deja que el IDE agregue
+ * "import plantillas.PersistentStack;". Si borras el import, desaparece de entrega/cf715434B/Main.java.
+ */
+public class Main {
+    static FastScanner in = new FastScanner();
+    static PrintWriter out = new PrintWriter(new BufferedOutputStream(System.out));
+
+    public static void main(String[] args) {
+        int t = 1;
+        t = in.nextInt(); // descomenta si el problema trae varios casos de prueba
+        while (t-- > 0) solve();
+        out.flush();
+    }
+
+    static void solve() {
+        int N = in.nextInt();
+        int []A= in.nextIntArray(N);
+        long suma =0;  // valores de hasta 10^18 
+        for (int i = 0; i<N;i++){
+            int max_curr = A[i];
+            
+            for (int j =i+1; j<N; j++){ // i<j , todos los i, con todos los j que estan adealnte
+                if(max_curr < A[j]){
+                    max_curr = A[j]; // maximo siempre
+
+                }
+
+                if ((A[i]^A[j])>max_curr){
+                    suma +=max_curr;
+                }
+            }
+        }
+        out.println(suma);
+    }
+}
+
+// ============ plantilla: FastScanner ============
+/**
+ * Lectura rápida de stdin (tu plantilla original + helpers para arrays).
+ * Uso:  FastScanner in = new FastScanner();  int n = in.nextInt();  long[] a = in.nextLongArray(n);
+ */
+class FastScanner {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in), 1 << 16);
+    StringTokenizer st = new StringTokenizer("");
+
+    public String next() {
+        while (!st.hasMoreTokens()) {
+            try {
+                String line = br.readLine();
+                if (line == null) return null;
+                st = new StringTokenizer(line);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return st.nextToken();
+    }
+
+    public int nextInt() { return Integer.parseInt(next()); }
+    public long nextLong() { return Long.parseLong(next()); }
+    public double nextDouble() { return Double.parseDouble(next()); }
+
+    /** Resto de la línea actual (o la siguiente línea completa si no quedan tokens). */
+    public String nextLine() {
+        try {
+            if (st.hasMoreTokens()) {
+                StringBuilder sb = new StringBuilder(st.nextToken());
+                while (st.hasMoreTokens()) sb.append(' ').append(st.nextToken());
+                return sb.toString();
+            }
+            return br.readLine();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    public int[] nextIntArray(int n) {
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = nextInt();
+        return a;
+    }
+
+    public long[] nextLongArray(int n) {
+        long[] a = new long[n];
+        for (int i = 0; i < n; i++) a[i] = nextLong();
+        return a;
+    }
+
+    /** Array 1-indexado: a[1..n], a[0] = 0 (útil para segment trees sobre [1, n]). */
+    public long[] nextLongArray1(int n) {
+        long[] a = new long[n + 1];
+        for (int i = 1; i <= n; i++) a[i] = nextLong();
+        return a;
+    }
+}
